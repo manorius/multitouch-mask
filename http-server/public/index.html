@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)http://fabianirsara.com/examples/multitouch/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>EaselJS Example: Multitouch.</title>
+<script src="./bin/easeljs-0.8.0.combined.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/TouchSimulator.js"></script>
+  <script type="text/javascript">TouchEmulator();</script>
+
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/easeljs-0.7.1.min.js"></script>
+
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/TweenLite.min.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/EasePack.min.js"></script>
+
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/sys.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/Transformable.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/MoveClip.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/RotateClip.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/ScaleClip.js"></script>
+  <script type="text/javascript" src="./EaselJS Example  Multitouch._files/TransformClip.js"></script>
+
+  <style type="text/css">
+    body {
+      overflow: hidden;
+      background: #eaeaea;
+    }
+    * {
+      margin: 0;
+    }
+  </style>
+
+  <script type="text/javascript">
+  var stage;
+  var queue ;
+  var noOfImagesLoaded=0;
+
+  function resize(){
+    stage.canvas.width = window.innerWidth;
+    stage.canvas.height = window.innerHeight;
+  }
+
+  function init() {
+     stage = new createjs.Stage('canvas');
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    // IMAGE PRELOADER EVENTLISTENER
+    queue = new createjs.LoadQueue(true,"images/");
+    queue.on("fileload", handleFileLoad, this);
+    queue.loadManifest([
+      {src: "image.jpg", id: "loadedImage"},
+      {src: "transparent.png", id: "mask"}
+    ]);
+  }
+
+  // IMAGE HAS LOADED
+  function handleFileLoad(event) {
+noOfImagesLoaded++;
+console.log();
+
+// WHEN ALL IMAGES LOADED
+if(noOfImagesLoaded==2) render();
+ }
+
+
+  function render(){
+
+    // TRANSFORMATION CONTAINER
+    var transButter = new com.firsara.display.TransformClip();
+
+    // ADDING IMAGE
+   var butter = new createjs.Bitmap(queue.getResult("loadedImage").src);
+   console.log(queue.getResult("loadedImage"));
+   // butter.regX = butter.image.width*0.5;
+   // butter.regY = butter.image.height*0.5;
+
+    // ADD NEW IMAGE TO TRANSFORMABLE
+    stage.addChild(butter);
+
+ // LOADING MASK
+    var butterMask = new createjs.Bitmap(queue.getResult("mask").src);
+ //    butterMask.regX = butterMask.image.width*0.5;
+ //  butterMask.regY = butterMask.image.height*0.5;
+
+    butter.mask = butterMask;
+    // ADD ALL DISPLAYOBJECTS TO STAGE
+    //stage.addChild(butterMask);
+
+    // MOVE IMAGE TRANSFORMATION TO THE CENTER OF THE SCREEN
+    transButter.x = stage.canvas.width / 2;
+    transButter.y = stage.canvas.height / 2;
+
+/*
+    var shape = new createjs.Shape();
+    shape.graphics.beginFill('#212121');
+    shape.graphics.drawRect(-100, -100, 200, 200);
+    shape.graphics.endFill();
+    transformable.addChild(shape);
+
+
+
+    transformable.borders.x = [50, stage.canvas.width - 50];
+    transformable.borders.y = [50, stage.canvas.height - 50];
+    transformable.borders.scale = [0.5, 3];
+
+    stage.addChild(transformable);
+*/
+    createjs.Touch.enable(stage);
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener('tick', tick);
+  }
+
+  function tick(){
+    stage.update();
+  }
+  </script>
+<link type="text/css" rel="stylesheet" href="chrome-extension://iblgjellknmcmgaemholenioojilcmcg/style.css"><script type="text/javascript" charset="utf-8" src="chrome-extension://iblgjellknmcmgaemholenioojilcmcg/js/page_context.js"></script><style type="text/css"></style></head>
+
+<body onload="init();" data-pinterest-extension-installed="cr1.35">
+  <canvas id="canvas" width="1402" height="434"></canvas>
+
+
+<iframe id="rdbIndicator" width="100%" height="270" border="0" src="./EaselJS Example  Multitouch._files/indicator.html" style="display: none; border: 0; position: fixed; left: 0; top: 0; z-index: 2147483647"></iframe></body></html>
